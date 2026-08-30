@@ -1,0 +1,58 @@
+{
+  "name": "indstocks-mcp",
+  "version": "0.1.0",
+  "description": "Read-only MCP server for the official INDstocks (INDmoney) trading API, plus AMFI mutual fund NAV data. No scraping, no order placement.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "indstocks-mcp": "dist/index.js"
+  },
+  "main": "dist/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "dev": "tsc --watch",
+    "start": "node dist/index.js",
+    "prepublishOnly": "npm run build",
+    "test": "npm run build && node --test \"tests/**/*.test.mjs\""
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "indmoney",
+    "indstocks",
+    "nse",
+    "bse",
+    "mutual-funds",
+    "amfi",
+    "india",
+    "portfolio",
+    "claude"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.0",
+    "unpdf": "^1.8.1",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  },
+  "author": "Arnavshah22",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Arnavshah22/indstocks-mcp.git"
+  },
+  "homepage": "https://github.com/Arnavshah22/indstocks-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/Arnavshah22/indstocks-mcp/issues"
+  }
+}
