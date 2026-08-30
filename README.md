@@ -1,5 +1,9 @@
 # indstocks-mcp
 
+[![CI](https://github.com/Arnavshah22/indstocks-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/Arnavshah22/indstocks-mcp/actions/workflows/ci.yml)
+[![npm](https://img.shields.io/npm/v/indstocks-mcp)](https://www.npmjs.com/package/indstocks-mcp)
+[![node](https://img.shields.io/node/v/indstocks-mcp)](https://www.npmjs.com/package/indstocks-mcp)
+
 **The INDmoney MCP server that doesn't scrape.**
 
 An MCP server giving Claude read-only access to your INDmoney portfolio and Indian market data — built on the **official INDstocks REST API**, not Playwright browser automation.

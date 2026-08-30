@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# This workflow only builds and tests. It never writes to the repository.
+permissions:
+  contents: read
+
+# A newer push to the same branch makes an in-flight run irrelevant.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Report both platforms rather than hiding one behind the other's failure.
+      fail-fast: false
+      matrix:
+        # Windows is here deliberately: the package is developed on it, the test
+        # script leans on Node's own glob expansion rather than the shell's, and
+        # line endings differ. Ubuntu alone would not catch a regression in any
+        # of that.
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches engines.node. unpdf requires >=22, and the global WebSocket
+          # the price feed depends on is not available unflagged before Node 21.
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Run before the tests: when types break, that is the useful signal, and
+      # it arrives without waiting for the suite.
+      - name: Typecheck
+        run: npm run typecheck
+
+      # No network access is required. Every test either stubs global fetch or
+      # talks to a WebSocket server it starts on localhost, so a flaky upstream
+      # can never turn this red.
+      - name: Test
+        run: npm test
