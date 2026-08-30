@@ -3,3 +3,6 @@ dist/
 .env
 *.log
 .DS_Store
+
+# npm auth tokens — never commit these
+.npmrc
