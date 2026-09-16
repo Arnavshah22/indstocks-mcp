@@ -1,0 +1,36 @@
+version: 2
+
+updates:
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      interval: weekly
+
+    # There are three direct dependencies and roughly a hundred transitive ones,
+    # nearly all pulled in by the MCP SDK. Every advisory so far has been a
+    # transitive package whose fix already sat inside a range package.json
+    # allows, so the repair was a lockfile refresh and nothing else.
+    # lockfile-only keeps those PRs to that one file, which is a diff CI can
+    # actually verify, and leaves the choice of a new SDK major to a human.
+    versioning-strategy: lockfile-only
+
+    # A week of transitive drift is one review, not six. Dependabot still opens
+    # security updates outside this group, so an advisory is never queued behind
+    # a routine bump.
+    groups:
+      transitive:
+        patterns: ["*"]
+        update-types: ["minor", "patch"]
+
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: deps
+
+  # The CI workflow pins actions by major tag, so this is mostly about picking
+  # up new Node runtimes under actions/setup-node before a tag goes stale.
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: ci
